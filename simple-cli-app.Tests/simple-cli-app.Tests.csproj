@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>simple_cli_app.Tests</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -21,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\csharp-simple-cli-app.csproj" />
+    <ProjectReference Include="..\simple-cli-app\simple-cli-app.csproj" />
   </ItemGroup>
 
 </Project>
