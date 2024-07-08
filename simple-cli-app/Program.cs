@@ -16,6 +16,12 @@ namespace simple_cli_app.Program
                         processInput(args);
                         break;
                     }
+                case 3:
+                    {
+                        processInput(args);
+                        break;
+                    }
+
                 default: throw new ArgumentException("Too many parameters!");
             }
         }

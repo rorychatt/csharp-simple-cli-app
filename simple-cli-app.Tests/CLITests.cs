@@ -1,10 +1,24 @@
 using simple_cli_app.Program;
 using FluentAssertions;
+using static simple_cli_app.Program.App;
+using System.Text.Json;
 
 namespace simple_cli_app.Tests;
 
 public class CLITests
 {
+
+    private readonly static string currentDir = Directory.GetCurrentDirectory();
+
+    private void RemoveRelativeFile(string url)
+    {
+        var path = Path.Combine(currentDir, url);
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
+    }
+
     [Fact]
     public void EmptyProgramBuilds()
     {
@@ -43,6 +57,23 @@ public class CLITests
         var ex = Assert.Throws<ArgumentException>(() => { App.Main(testArgs); });
 
         ex.Message.Should().Be("Only r - read and w - write tags are supported");
+    }
+
+    [Fact]
+    public void WritesEmptyJSON()
+    {
+        List<ReadableData> readableData = new();
+        string url = "example.json";
+        string[] testArgs = ["w", url, JsonSerializer.Serialize(readableData)];
+
+        App.Main(testArgs);
+
+        var fullPath = Path.Combine(currentDir, url);
+        Path.Exists(fullPath).Should().Be(true);
+
+        RemoveRelativeFile(url);
+        //Todo: unneccessary code?
+        Path.Exists(fullPath).Should().Be(false);
     }
 
 }
