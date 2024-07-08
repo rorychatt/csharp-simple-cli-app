@@ -14,4 +14,16 @@ public class CLITests
 
         ex.Message.Should().Be("Please provide some arguments, like 'read data.json'");
     }
+
+    [Fact]
+    public void RaiseArgumentException_When1Argument()
+    {
+        App app = new();
+
+        var ex = Assert.Throws<ArgumentException>(() => { App.Main(["hahahaha"]); });
+
+        ex.Message.Should().Be("Please provide name of the .JSON file to read or write to");
+    }
+
+
 }
