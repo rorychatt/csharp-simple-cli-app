@@ -25,5 +25,17 @@ public class CLITests
         ex.Message.Should().Be("Please provide name of the .JSON file to read or write to");
     }
 
+    [Fact]
+    public void RaiseArgumentException_WhenBadSpecifierRorW()
+    {
+        App app = new();
+
+        string[] testArgs = ["b", "t"];
+
+        var ex = Assert.Throws<ArgumentException>(() => { App.Main(testArgs); });
+
+        ex.Message.Should().Be("Only r - read and w - write tags are supported");
+    }
+
 
 }
