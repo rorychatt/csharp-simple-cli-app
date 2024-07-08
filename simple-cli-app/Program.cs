@@ -4,6 +4,7 @@ namespace Program
 {
     public class Program
     {
+        private readonly JsonSerializerOptions options = new() { WriteIndented = true };
         public static int Main(string[] args)
         {
             return 0;
@@ -21,10 +22,6 @@ namespace Program
 
         public static void WriteToJSONFile(string url, List<ReadableData> data)
         {
-            JsonSerializerOptions options = new()
-            {
-                WriteIndented = true
-            };
             string jsonString = JsonSerializer.Serialize(data, options);
             File.WriteAllText(url, jsonString);
         }

@@ -1,10 +1,10 @@
 namespace simple_cli_app.Tests;
 
-public class UnitTest1
+public class CLITests
 {
     [Fact]
     public void Test1()
     {
-
+        
     }
 }
