@@ -13,11 +13,28 @@ namespace simple_cli_app.Program
                 case 1: throw new ArgumentException("Please provide name of the .JSON file to read or write to");
                 case 2:
                     {
-                        return;
+                        processInput();
+                        break;
                     }
                 default: throw new ArgumentException("Too many parameters!");
             }
         }
+
+        private static void processInput(string[] args)
+        {
+            var operation = checkForOperation(args);
+        }
+
+        private static string checkForOperation(string[] args)
+        {
+            return args[0] switch
+            {
+                "r" => "r",
+                "w" => "w",
+                _ => throw new ArgumentException("Only r - read and w - write tags are supported"),
+            };
+        }
+
         public class ReadableData
         {
             public required string Name { get; set; }
