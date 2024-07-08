@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
 
-namespace Program
+namespace simple_cli_app.Program
 {
-    public class Program
+    public class App
     {
         private static readonly JsonSerializerOptions options = new() { WriteIndented = true };
         public static void Main(string[] args)
