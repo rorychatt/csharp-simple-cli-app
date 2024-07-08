@@ -1,10 +1,13 @@
-﻿using System.Text.Json;
+﻿using System.Reflection;
+using System.Text.Json;
 
 namespace simple_cli_app.Program
 {
     public class App
     {
         private static readonly JsonSerializerOptions options = new() { WriteIndented = true };
+        public readonly static string currentDir = Directory.GetCurrentDirectory();
+
         public static void Main(string[] args)
         {
             switch (args.Length)
@@ -30,7 +33,7 @@ namespace simple_cli_app.Program
         {
             switch (checkForOperation(args))
             {
-                case "r": tryToReadFile(); break;
+                case "r": tryToReadFile(args); break;
                 case "w": tryToWriteFile(args); break;
                 default: throw new ArgumentException("Only r - read and w - write tags are supported");
             }
@@ -50,9 +53,21 @@ namespace simple_cli_app.Program
             }
         }
 
-        private static void tryToReadFile()
+        private static void tryToReadFile(string[] args)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var url = args[1];
+                var data = ReadJSONFile(url);
+                foreach (var item in data)
+                {
+                    Console.WriteLine(item.ToString());
+                }
+            }
+            catch
+            {
+                throw new Exception("Could not read file!");
+            }
         }
 
         private static string checkForOperation(string[] args)
@@ -68,13 +83,18 @@ namespace simple_cli_app.Program
         public class ReadableData
         {
             public required string Name { get; set; }
+
+            public override string ToString()
+            {
+                return $"Name: {Name}";
+            }
         }
 
-        public static List<ReadableData> ReadJSONFile(string url)
+        public static List<ReadableData> ReadJSONFile(string _url)
         {
-            string jsonString = File.ReadAllText(url);
-            List<ReadableData> data = JsonSerializer.Deserialize<List<ReadableData>>(jsonString)!;
-            return data;
+            string filePath = Path.Combine(currentDir, _url);
+            string jsonContent = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<List<ReadableData>>(jsonContent)!;
         }
 
         public static void WriteToJSONFile(string url, List<ReadableData> data)

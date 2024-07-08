@@ -7,9 +7,6 @@ namespace simple_cli_app.Tests;
 
 public class CLITests
 {
-
-    private readonly static string currentDir = Directory.GetCurrentDirectory();
-
     private void RemoveRelativeFile(string url)
     {
         var path = Path.Combine(currentDir, url);
@@ -72,8 +69,40 @@ public class CLITests
         Path.Exists(fullPath).Should().Be(true);
 
         RemoveRelativeFile(url);
-        //Todo: unneccessary code?
         Path.Exists(fullPath).Should().Be(false);
+    }
+
+    [Fact]
+    public void ReadsJSON()
+    {
+        List<ReadableData> readableData = new()
+        {
+            new ReadableData(){
+                Name = "funny guy"
+            },
+            new ReadableData(){
+                Name = "not a funny guy"
+            }
+        };
+        string url = "funnyguys.json";
+        var fullPath = Path.Combine(currentDir, url);
+        App.WriteToJSONFile(fullPath, readableData);
+        Path.Exists(fullPath).Should().Be(true);
+
+        string[] testArgs = ["r", url];
+
+        var output = new StringWriter();
+        Console.SetOut(output);
+
+        App.Main(testArgs);
+
+        var sout = output.ToString().Trim();
+
+        sout.Should().Be("Name: funny guy\r\nName: not a funny guy");
+
+        RemoveRelativeFile(url);
+        Path.Exists(fullPath).Should().Be(false);
+
     }
 
 }
