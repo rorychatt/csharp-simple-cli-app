@@ -16,7 +16,7 @@ namespace Program
         public static List<ReadableData> ReadJSONFile(string url)
         {
             string jsonString = File.ReadAllText(url);
-            List<ReadableData> data = JsonSerializer.Deserialize<List<ReadableData>>(jsonString);
+            List<ReadableData> data = JsonSerializer.Deserialize<List<ReadableData>>(jsonString)!;
             return data;
         }
 
