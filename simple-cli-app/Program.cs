@@ -28,7 +28,31 @@ namespace simple_cli_app.Program
 
         private static void processInput(string[] args)
         {
-            var operation = checkForOperation(args);
+            switch (checkForOperation(args))
+            {
+                case "r": tryToReadFile(); break;
+                case "w": tryToWriteFile(args); break;
+                default: throw new ArgumentException("Only r - read and w - write tags are supported");
+            }
+        }
+
+        private static void tryToWriteFile(string[] args)
+        {
+            try
+            {
+                var url = args[1];
+                var contents = args[2];
+                WriteToJSONFile(url, JsonSerializer.Deserialize<List<ReadableData>>(contents)!);
+            }
+            catch
+            {
+                throw new Exception("Could not write to file!");
+            }
+        }
+
+        private static void tryToReadFile()
+        {
+            throw new NotImplementedException();
         }
 
         private static string checkForOperation(string[] args)
@@ -45,6 +69,7 @@ namespace simple_cli_app.Program
         {
             public required string Name { get; set; }
         }
+
         public static List<ReadableData> ReadJSONFile(string url)
         {
             string jsonString = File.ReadAllText(url);
