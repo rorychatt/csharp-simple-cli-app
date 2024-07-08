@@ -5,9 +5,18 @@ namespace Program
     public class Program
     {
         private static readonly JsonSerializerOptions options = new() { WriteIndented = true };
-        public static int Main(string[] args)
+        public static void Main(string[] args)
         {
-            return 0;
+            switch (args.Length)
+            {
+                case 0: throw new ArgumentException("Please provide some arguments, like 'read data.json'");
+                case 1: throw new ArgumentException("Please provide name of the .JSON file to read or write to");
+                case 2:
+                    {
+                        return;
+                    }
+                default: throw new ArgumentException("Too many parameters!");
+            }
         }
         public class ReadableData
         {
