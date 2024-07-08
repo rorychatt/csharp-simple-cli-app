@@ -105,4 +105,44 @@ public class CLITests
 
     }
 
+    [Fact]
+    public void WritesAndReadsJSON()
+    {
+        List<ReadableData> readableData = new()
+        {
+            new ReadableData(){
+                Name = "funny guy"
+            },
+            new ReadableData(){
+                Name = "not a funny guy"
+            }
+        };
+
+        var url = "rwTest.json";
+        var fullPath = Path.Combine(currentDir, url);
+
+        string data = JsonSerializer.Serialize(readableData);
+
+        string[] writeArgs = ["w", url, data];
+
+        App.Main(writeArgs);
+
+        Path.Exists(fullPath).Should().Be(true);
+
+        string[] readArgs = ["r", url];
+
+        var output = new StringWriter();
+        Console.SetOut(output);
+
+        App.Main(readArgs);
+
+        var sout = output.ToString().Trim();
+
+        sout.Should().Be("Name: funny guy\r\nName: not a funny guy");
+
+        RemoveRelativeFile(url);
+        Path.Exists(fullPath).Should().Be(false);
+
+    }
+
 }
