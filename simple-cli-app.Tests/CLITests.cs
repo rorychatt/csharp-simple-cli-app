@@ -6,6 +6,14 @@ namespace simple_cli_app.Tests;
 public class CLITests
 {
     [Fact]
+    public void EmptyProgramBuilds()
+    {
+        App app = new();
+
+        app.Should().NotBeNull();
+    }
+
+    [Fact]
     public void RaiseArgumentException_WhenNoArguments()
     {
         App app = new();
@@ -36,6 +44,5 @@ public class CLITests
 
         ex.Message.Should().Be("Only r - read and w - write tags are supported");
     }
-
 
 }

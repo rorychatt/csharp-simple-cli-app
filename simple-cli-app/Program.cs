@@ -13,7 +13,7 @@ namespace simple_cli_app.Program
                 case 1: throw new ArgumentException("Please provide name of the .JSON file to read or write to");
                 case 2:
                     {
-                        processInput();
+                        processInput(args);
                         break;
                     }
                 default: throw new ArgumentException("Too many parameters!");
