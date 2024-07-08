@@ -1,23 +1,32 @@
-﻿public class App
-{
-    public class ReadableData
-    {
-        public required string Name { get; set; }
-    }
-    public static List<ReadableData> ReadJSONFile(string url)
-    {
-        string jsonString = File.ReadAllText(url);
-        List<ReadableData> data = JsonSerializer.Deserialize<List<ReadableData>>(jsonString);
-        return data;
-    }
+﻿using System.Text.Json;
 
-    public static void WriteToJSONFile(string url, List<ReadableData> data)
+namespace Program
+{
+    public class Program
     {
-        JsonSerializerOptions options = new()
+        public static int Main(string[] args)
         {
-            WriteIndented = true
-        };
-        string jsonString = JsonSerializer.Serialize(data, options);
-        File.WriteAllText(url, jsonString);
+            return 0;
+        }
+        public class ReadableData
+        {
+            public required string Name { get; set; }
+        }
+        public static List<ReadableData> ReadJSONFile(string url)
+        {
+            string jsonString = File.ReadAllText(url);
+            List<ReadableData> data = JsonSerializer.Deserialize<List<ReadableData>>(jsonString);
+            return data;
+        }
+
+        public static void WriteToJSONFile(string url, List<ReadableData> data)
+        {
+            JsonSerializerOptions options = new()
+            {
+                WriteIndented = true
+            };
+            string jsonString = JsonSerializer.Serialize(data, options);
+            File.WriteAllText(url, jsonString);
+        }
     }
 }
